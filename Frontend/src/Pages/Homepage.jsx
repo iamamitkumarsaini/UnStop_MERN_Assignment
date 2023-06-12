@@ -24,7 +24,7 @@ function Homepage() {
       {/* Component for Ticket Booking */}
       <AddTicket />
 
-      <HStack spacing={3} pb={8}>
+      <HStack spacing={3} pb={8} px={4} align={"start"} >
         <Text fontWeight={500} fontSize={"20px"}>
           Note:
         </Text>

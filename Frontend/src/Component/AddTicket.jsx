@@ -70,7 +70,7 @@ function AddTicket() {
 
   return (
     <>
-      <Flex maxW={["90%", "70%", "50%", "30%"]} m={"auto"} pb={6} gap={4}>
+      <Flex m={"auto"} pb={6} gap={[0,4]} direction={['column',"row"]} >
         <FormControl>
           <FormLabel>Enter Number of Tickets you wants to Book</FormLabel>
           <Input
@@ -101,13 +101,13 @@ function AddTicket() {
       </Flex>
 
       <HStack m={"auto"} pb={16}>
-        <Heading display={bookedTickets ? "block" : "none"} fontSize={"24px"}>
+        <Heading fontWeight={600} display={bookedTickets ? "block" : "none"} fontSize={"24px"}>
           Your Booked Setas are:
         </Heading>
         {bookedTickets?.map((elem) => (
           <Box key={elem._id}>
-            <Text fontSize={"21px"} fontWeight={500}>
-              {elem.seatNumber},
+            <Text fontSize={"19px"} mt={1} fontWeight={500}>
+            {elem.seatNumber},
             </Text>
           </Box>
         ))}
