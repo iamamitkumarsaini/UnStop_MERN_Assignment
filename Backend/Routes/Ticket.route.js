@@ -65,7 +65,7 @@ function findNearestAvailabelSeat(arr, K) {
 
 // Get request API to send all the seats data to the client side
 
-ticketRoutes.get("/get", async (req, res) => {
+ticketRoutes.get("/alltickets", async (req, res) => {
     try {
       const tickets = await TicketModel.find();
       tickets.sort((a, b) => a.seatNumber.localeCompare(b.seatNumber));
@@ -80,7 +80,7 @@ ticketRoutes.get("/get", async (req, res) => {
 
 // Post Request to book the seats if availble and sending the boooked seat's Number as a response,
 //  if seat is not available sending appropriate response.
-  ticketRoutes.post("/book", async (req, res) => {
+  ticketRoutes.post("/booktickets", async (req, res) => {
 
     const { numTickets } = req.body;
   
@@ -168,7 +168,7 @@ ticketRoutes.get("/get", async (req, res) => {
 
 // To cancel the ticket booking, Incase all the tickets are booked, 
 // and not a single ticket is availble to test the code.
-  ticketRoutes.patch("/cancel/:id", async (req, res) => {
+  ticketRoutes.patch("/cancelticket/:id", async (req, res) => {
     const { id } = req.params;
     try {
       const cancelTicket = await TicketModel.findByIdAndUpdate(id, {
