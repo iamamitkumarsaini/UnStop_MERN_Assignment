@@ -9,51 +9,45 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-function ticketCancel(id) {
-  axios
-    .patch(`http://localhost:8090/cancel/${id}`)
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => console.log(err));
-}
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTicketsData, patchCancelTicketData } from "../Reducer/action";
 
 function TicketLayout() {
-  const [arr, setArr] = useState([]);
-  const toast = useToast();
-  const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+  const tickets = useSelector((state) => state.tickets);
 
-  const getTicketData = () => {
-    axios
-      .get(`http://localhost:8090/get`)
-      .then((res) => {
-        // console.log(res.data)
-        setArr(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
+  const toast = useToast();
+
 
   const handleTicketCancel = (ele) => {
     if (ele.available === true) {
       toast({
         title: "Ticket is Already Available",
-        // description: "We've created your account for you.",
         status: "info",
         duration: 2000,
         isClosable: true,
         position: "top",
       });
-    } else {
-      setCount(count + 1);
-      ticketCancel(ele._id);
+    } 
+    
+    else {
+      dispatch(patchCancelTicketData(ele._id)).then((res) => {
+        toast({
+          title: res.payload[0]?.message,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+
+        dispatch(getAllTicketsData());
+      });
     }
   };
 
   useEffect(() => {
-    getTicketData();
-  }, [count]);
+    dispatch(getAllTicketsData());
+  }, []);
 
   return (
     <Stack>
@@ -63,6 +57,7 @@ function TicketLayout() {
         </Heading>
       </Box>
 
+      {/* Here I am demonstrating the Layout of the Train coach seating arrangement */}
       <Flex
         w={["90%", "80%", "65%", "55%", "50%"]}
         justifyContent={"space-between"}
@@ -114,6 +109,8 @@ function TicketLayout() {
           </Stack>
         </Stack>
 
+
+        {/* Mapping all the seats here in a grid version displaying 7 seats in a row */}
         <Grid
           templateColumns={"repeat(7, 1fr)"}
           gap={2}
@@ -121,7 +118,7 @@ function TicketLayout() {
           w={"full"}
           p={[0, 3]}
         >
-          {arr?.map((elem) => (
+          {tickets?.map((elem) => (
             <GridItem key={elem._id}>
               <Flex
                 fontSize={["14px", "14px", "16px", "18px"]}
