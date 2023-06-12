@@ -74,7 +74,7 @@ const getAllTicketsData = () => (dispatch) => {
 
     dispatch(getAllTicketsRequest());
 
-    return axios.get(`http://localhost:8090/get`)
+    return axios.get(`https://lazy-gold-dove-hat.cyclic.app/alltickets`)
     .then((res) => {
        return dispatch(getAllTicketsSuccess(res.data));
     })
@@ -89,7 +89,7 @@ const postBookTicketsData = (payload) => (dispatch) => {
 
     dispatch(postBookTicketsRequest());
 
-    return axios.post(`http://localhost:8090/book`, payload)
+    return axios.post(`https://lazy-gold-dove-hat.cyclic.app/booktickets`, payload)
     .then((res) => {
         return dispatch(postBookTicketsSuccess([res.data]))
     })
@@ -104,7 +104,7 @@ const patchCancelTicketData = (id) => (dispatch) => {
 
     dispatch(patchCancelTicketRequest());
 
-    return axios.patch(`http://localhost:8090/cancel/${id}`)
+    return axios.patch(`https://lazy-gold-dove-hat.cyclic.app/cancelticket/${id}`)
     .then((res) => {
         return dispatch(patchCancelTicketSuccess([res.data]));
     })
